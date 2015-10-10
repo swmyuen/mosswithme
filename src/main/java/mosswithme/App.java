@@ -23,7 +23,7 @@ public class App
             @Override
             public void service(Request rqst, Response rspns) throws Exception {
                 rspns.setStatus(404, "Not found");
-                rspns.getWriter().write("404: not found");
+                rspns.getWriter().write("You want some NLP?");
             }
         });
         try {
