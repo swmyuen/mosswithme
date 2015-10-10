@@ -25,10 +25,14 @@ public class GoogleSearch {
     static {
         patternDomainName = Pattern.compile(DOMAIN_NAME_PATTERN);
     }
-    public static void main(String[] args) {
+    
+    
+    public static String getMatcherInput (String queryInput) {
+    	String input = queryInput;
+    	
     	Set<String> queryResults = new HashSet<String>();
     	String matcherInput = "";
-	    String input = "What+are+Hackathons";
+	    
         GoogleSearch obj = new GoogleSearch();
         Set<String> urls = obj.getDataFromGoogle(input); 
         //result = obj.getSentencesFromLink("https://en.wikipedia.org/wiki/Hackathon%23Types_of_hackathons&sa=U&ved=0CC0Q0gIoAjADahUKEwirouOu57fIAhVD02MKHePFCW4&usg=AFQjCNEkdG2X3GGryEddMtMRBb0VQjCc3g");
@@ -53,20 +57,7 @@ public class GoogleSearch {
         	matcherInput += " " + str;
         }
         
-//        System.out.println(matcherInput);
-//        
-//        String[] result = SummaryTool.getTopStrings(matcherInput, 10);
-//        
-//        System.out.println("\n------------------RESULTS------------------------\n");
-//        
-//        for(String str: result){
-//        	System.out.println(str);
-//        }
-
-        
-        for(Entry<String,Integer> entry : SummaryTool.getWordFreq(matcherInput)){
-        	System.out.println(entry.getKey());
-        }
+        return matcherInput;
     }
     
     private Set<String> getDataFromGoogle(String query) {

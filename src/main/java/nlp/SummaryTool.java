@@ -112,6 +112,7 @@ public class SummaryTool {
 		input = input.replace(",", "");
 		input = input.replace(":", "");
 		input = input.replace(";", "");
+		input = input.replace("|", "");
 		
 		for(String str : input.split(" ")){
 			if(wordFreq.keySet().contains(str.toLowerCase())){

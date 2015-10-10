@@ -1,0 +1,27 @@
+<web-app>
+  <servlet>
+   <servlet-name>Grizzly Cometd Servlet</servlet-name>
+   <servlet-class>
+      com.sun.grizzly.cometd.servlet.CometdServlet
+   </servlet-class>
+   <init-param>
+      <description>
+         expirationDelay is the long delay before a request is
+         resumed. -1 means never.
+      </description>
+      <param-name>expirationDelay</param-name>
+      <param-value>-1</param-value>
+   </init-param>
+   <init-param>
+      <param-name>com.sun.jersey.config.property.packages</param-name>
+      <param-value>mosswithme.Router</param-value>
+    </init-param>
+   <load-on-startup>1</load-on-startup>
+</servlet>
+
+  <servlet-mapping>
+    <servlet-name>Jersey</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+</web-app>
+
