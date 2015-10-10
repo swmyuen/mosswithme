@@ -10,10 +10,10 @@ import java.util.TreeMap;
 public class SummaryTool {
 	
 	public static String[] getTopStrings(String input){
-		return runCompare(splitContentToSentences(input));
+		return getTopStrings(splitContentToSentences(input));
 	}
 	
-	private static String[] runCompare(String[] input) {
+	public static String[] getTopStrings(String[] input) {
 		int numberOfSentencesReturned = 5;
 		Map<String, Double> sentences = new HashMap<String,Double>();
 		String [] result = new String[numberOfSentencesReturned];
@@ -28,6 +28,7 @@ public class SummaryTool {
 		for(int i = 0; i < input.length; i++) {
 			for(int j = 0; i < input.length; j++) {
 				intersectionValues[i][j] = normalizeIntersection(input[i], input[j]);
+				System.out.println(intersectionValues[i][j]);
 			}
 		}
 		
@@ -60,9 +61,11 @@ public class SummaryTool {
 	}
 	
 	private static String[] splitContentToSentences(String input) {
-		input = input.replace("\n", ". ");
+//		input = input.replace("\n\n", ". ");
+//		input = input.replace("\n", ". ");
+
 		
-		return input.split(". ");
+		return input.split("(?<=[a-z])\\.\\s+");
 	}
 	
 	private static double normalizeIntersection(String sent1, String sent2){
@@ -77,13 +80,13 @@ public class SummaryTool {
 			s2.add(word);
 		}
 		
-		if(s1.size() + s2.size() == 0){
+		intersect.retainAll(s2);
+		
+		if(intersect.size() == 0){
 			return 0;
 		}
 		
-		intersect.retainAll(s1);
-		
-		return intersect.size() / ((s1.size() + s2.size()) / 2);
+		return (double)intersect.size() / (((double) s1.size() + (double) s2.size()) / 2);
 	}
 	
 	private static TreeMap<String, Double> SortByValue (HashMap<String, Double> map) {
