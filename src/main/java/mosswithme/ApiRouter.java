@@ -36,7 +36,6 @@ public class ApiRouter {
 	}
 
 	private String[] ApiGetBlurbs(String input){
-		String resultString = " ";
 		
 		String matcherInput = GoogleSearch.getMatcherInput(input);
 		
