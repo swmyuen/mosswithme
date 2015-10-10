@@ -3,9 +3,13 @@ package GoogleTest;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import nlp.SummaryTool;
 
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -22,8 +26,9 @@ public class GoogleSearch {
         patternDomainName = Pattern.compile(DOMAIN_NAME_PATTERN);
     }
     public static void main(String[] args) {
-    	Set<String> results = new HashSet<String>();
-	    String input = "Hackathons";
+    	Set<String> queryResults = new HashSet<String>();
+    	String matcherInput = "";
+	    String input = "What+are+Hackathons";
         GoogleSearch obj = new GoogleSearch();
         Set<String> urls = obj.getDataFromGoogle(input); 
         //result = obj.getSentencesFromLink("https://en.wikipedia.org/wiki/Hackathon%23Types_of_hackathons&sa=U&ved=0CC0Q0gIoAjADahUKEwirouOu57fIAhVD02MKHePFCW4&usg=AFQjCNEkdG2X3GGryEddMtMRBb0VQjCc3g");
@@ -40,16 +45,27 @@ public class GoogleSearch {
 				continue;
 			}
             for (String sentence : sentences) {
-            	results.add(sentence);
+            	queryResults.add(sentence);
             }
         }
-         
-        //Output results
-        obj.outputResults(results);
         
-        System.out.println("\n------------------RESULTS------------------------\n");
-        for(String str : results.toArray(new String[results.size()])){
-        	System.out.println(str);
+        for(String str : queryResults){
+        	matcherInput += " " + str;
+        }
+        
+//        System.out.println(matcherInput);
+//        
+//        String[] result = SummaryTool.getTopStrings(matcherInput, 10);
+//        
+//        System.out.println("\n------------------RESULTS------------------------\n");
+//        
+//        for(String str: result){
+//        	System.out.println(str);
+//        }
+
+        
+        for(Entry<String,Integer> entry : SummaryTool.getWordFreq(matcherInput)){
+        	System.out.println(entry.getKey());
         }
     }
     

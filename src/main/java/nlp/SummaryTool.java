@@ -1,22 +1,25 @@
 package nlp;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeMap;
 
 import com.google.common.collect.Sets;
 
 public class SummaryTool {
 	
-	public static String[] getTopStrings(String input){
-		return getTopStrings(splitContentToSentences(input));
+	public static String[] getTopStrings(String input, int returnNumber){
+		return getTopStrings(splitContentToSentences(input), returnNumber);
 	}
 	
-	public static String[] getTopStrings(String[] input) {
-		int numberOfSentencesReturned = 3;
+	public static String[] getTopStrings(String[] input, int returnNumber) {
+		int numberOfSentencesReturned = returnNumber;
 		Map<String, Double> sentences = new HashMap<String,Double>();
 		String [] result = new String[numberOfSentencesReturned];
 
@@ -33,7 +36,7 @@ public class SummaryTool {
 			}
 		}
 		
-		// Build dictionary and create score which is the sum of intersectiosn
+		// Build dictionary and create score which is the sum of intersection
 		for(int i = 0; i < input.length; i++) {
 			double score = 0;
 			for(int j = 0; j < input.length; j++) {
@@ -46,25 +49,35 @@ public class SummaryTool {
 		}
 		
 		// Sort by highest score
-		TreeMap<String, Double> sortedSentences = SortByValue((HashMap<String, Double>) sentences);
-		
-		int count = 0;
-		for(Map.Entry<String, Double> entry : sortedSentences.entrySet()){
-			if (count >= numberOfSentencesReturned){
-				break;
+		Set<Entry<String,Double>> set = sentences.entrySet();
+		List<Entry<String,Double>> list = new ArrayList<Entry<String, Double>>(set);
+		Collections.sort(list, new Comparator<Map.Entry<String, Double>>(){
+
+			public int compare(Entry<String, Double> o1, Entry<String, Double> o2) {
+				// TODO Auto-generated method stub
+				return (o2.getValue()).compareTo(o1.getValue());
 			}
 			
-			result[count] = entry.getKey();
-			count++;
+		});
+		
+		// Get top results
+		int returnCount = 0;
+		for(Map.Entry<String, Double> entry:list){
+			result[returnCount] = entry.getKey();
+			
+			returnCount++;
+			
+			if(returnCount > numberOfSentencesReturned - 1){
+				break;
+			}
 		}
 		
 		return result;
 	}
 	
 	private static String[] splitContentToSentences(String input) {
-//		input = input.replace("\n\n", ". ");
-//		input = input.replace("\n", ". ");
-
+		input = input.replace("\n\n", ". ");
+		input = input.replace("\n", ". ");
 		
 		return input.split("(?<=[a-z])\\.\\s+");
 	}
@@ -81,8 +94,6 @@ public class SummaryTool {
 			s2.add(word);
 		}
 		
-//		intersect.retainAll(s2);
-		
 		intersect = Sets.intersection(s1, s2);
 		
 		if(intersect.size() == 0){
@@ -92,29 +103,34 @@ public class SummaryTool {
 		return (double)intersect.size() / (((double) s1.size() + (double) s2.size()) / 2);
 	}
 	
-	private static TreeMap<String, Double> SortByValue (HashMap<String, Double> map) {
-		ValueComparator vc =  new ValueComparator(map);
-		TreeMap<String,Double> sortedMap = new TreeMap<String,Double>(vc);
-		sortedMap.putAll(map);
-		return sortedMap;
-	}
-	
-	private static class ValueComparator implements Comparator<String> {
-		 
-	    Map<String, Double> map;
-	 
-	    public ValueComparator(Map<String, Double> base) {
-	        this.map = base;
-	    }
-	 
-	    public int compare(String a, String b) {
-	        if (map.get(a) >= map.get(b)) {
-	            return -1;
-	        } else {
-	            return 1;
-	        } // returning 0 would merge keys 
-	    }
-	}
-	
+	public static List<Map.Entry<String, Integer>> getWordFreq (String input) {
+		Map<String, Integer> wordFreq = new HashMap<String,Integer>();
+		
+		input = input.replace("!", "");
+		input = input.replace("?", "");
+		input = input.replace(".", "");
+		input = input.replace(",", "");
+		input = input.replace(":", "");
+		input = input.replace(";", "");
+		
+		for(String str : input.split(" ")){
+			if(wordFreq.keySet().contains(str.toLowerCase())){
+				wordFreq.replace(str.toLowerCase(), wordFreq.get(str.toLowerCase()) + 1);
+			} else {
+				wordFreq.put(str.toLowerCase(), 1);
+			}
+		}
+		
+		Set<Entry<String,Integer>> set = wordFreq.entrySet();
+		List<Entry<String,Integer>> list = new ArrayList<Entry<String, Integer>>(set);
+		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>(){
 
+			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+				// TODO Auto-generated method stub
+				return (o2.getValue()).compareTo(o1.getValue());
+			}
+		});
+		
+		return list;
+	}
 }

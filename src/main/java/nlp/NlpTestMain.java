@@ -21,7 +21,7 @@ public class NlpTestMain {
 				+ "Ohad Frankfurt is the CEO, Shlomi Babluki is the CTO and Oz Katz does Product and Engineering, and I [Lior Degani] do Marketing. The four of us are the founders. Oz and I were in 8200 [an elite Israeli army unit] together. Emily Engelson does Community Management and Graphic Design."
 				+ "If you use Percolate or read LinkedIn’s recommended posts I think you’ll love Swayy.";
 
-		for(String str : SummaryTool.getTopStrings(testCase)){
+		for(String str : SummaryTool.getTopStrings(testCase,10)){
 			System.out.println(str);
 		}
 	
