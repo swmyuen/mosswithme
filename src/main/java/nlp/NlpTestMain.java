@@ -1,6 +1,6 @@
 package nlp;
 
-public class TestMain {
+public class NlpTestMain {
 
 	public static void main(String[] args) {
 		String testCase = "Lior Degani, the Co-Founder and head of Marketing of Swayy, pinged me last week when I was in California to tell me about his startup and give me beta access. I heard his pitch and was skeptical. I was also tired, cranky and missing my kids – so my frame of mind wasn’t the most positive.\n"

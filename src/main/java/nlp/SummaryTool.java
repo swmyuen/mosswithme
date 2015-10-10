@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import com.google.common.collect.Sets;
+
 public class SummaryTool {
 	
 	public static String[] getTopStrings(String input){
@@ -14,7 +16,7 @@ public class SummaryTool {
 	}
 	
 	public static String[] getTopStrings(String[] input) {
-		int numberOfSentencesReturned = 5;
+		int numberOfSentencesReturned = 3;
 		Map<String, Double> sentences = new HashMap<String,Double>();
 		String [] result = new String[numberOfSentencesReturned];
 
@@ -25,10 +27,9 @@ public class SummaryTool {
 		Double intersectionValues[][] = new Double[input.length][input.length];
 		
 		// Calculate the intersection of sentences 
-		for(int i = 0; i < input.length; i++) {
-			for(int j = 0; i < input.length; j++) {
+		for(int i = 0; i < input.length; ++i) {
+			for(int j = 0; j < input.length; ++j) {
 				intersectionValues[i][j] = normalizeIntersection(input[i], input[j]);
-				System.out.println(intersectionValues[i][j]);
 			}
 		}
 		
@@ -80,7 +81,9 @@ public class SummaryTool {
 			s2.add(word);
 		}
 		
-		intersect.retainAll(s2);
+//		intersect.retainAll(s2);
+		
+		intersect = Sets.intersection(s1, s2);
 		
 		if(intersect.size() == 0){
 			return 0;

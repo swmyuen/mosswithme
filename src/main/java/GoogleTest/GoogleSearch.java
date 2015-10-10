@@ -46,6 +46,11 @@ public class GoogleSearch {
          
         //Output results
         obj.outputResults(results);
+        
+        System.out.println("\n------------------RESULTS------------------------\n");
+        for(String str : results.toArray(new String[results.size()])){
+        	System.out.println(str);
+        }
     }
     
     private Set<String> getDataFromGoogle(String query) {
