@@ -78,6 +78,7 @@ public class SummaryTool {
 	private static String[] splitContentToSentences(String input) {
 		input = input.replace("\n\n", ". ");
 		input = input.replace("\n", ". ");
+		input = input.replace("!", ".");
 		
 		return input.split("(?<=[a-z])\\.\\s+");
 	}
