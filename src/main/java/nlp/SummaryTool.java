@@ -80,7 +80,6 @@ public class SummaryTool {
 	private static String[] splitContentToSentences(String input) {
 		input = input.replace("\n\n", ". ");
 		input = input.replace("\n", ". ");
-		input = input.replace("!", ".");
 		
 		return input.split("(?<=[a-z])\\.\\s+");
 	}
@@ -127,10 +126,10 @@ public class SummaryTool {
 		}
 		
 		final Set<String> unwantedTags = new HashSet<String>(
-				Arrays.asList("DT", "VBZ", "WRB", "VBP", "IN", "WDT", "TO", "EX", "CC", "VB", "MD"));
+				Arrays.asList("PRP","DT", "VBZ", "WRB", "VBP", "IN", "WDT", "TO", "EX", "CC", "VB", "MD"));
 		
 		for(Entry<String,String> entry : tagMap.entrySet()){
-			if(unwantedTags.contains(entry.getValue()) && wordFreq.keySet().contains(entry.getKey())){
+			if(unwantedTags.contains(entry.getValue()) && wordFreq.keySet().contains(entry.getKey()) || entry.getKey().length() < 5){
 				wordFreq.remove(entry.getKey());
 			}
 		}
@@ -145,6 +144,14 @@ public class SummaryTool {
 			}
 		});
 		
-		return list;
+		List<Entry<String,Integer>> boldWords = new ArrayList<Entry<String, Integer>>();
+		for(int i = 0; i < 10; i++){
+			if(list.get(i).getKey().equals("") || list.get(i).getKey() == " "){
+				continue;
+			}
+			boldWords.add(list.get(i));
+		}
+		
+		return boldWords;
 	}
 }
