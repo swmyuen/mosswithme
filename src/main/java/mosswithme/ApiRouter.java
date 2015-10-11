@@ -49,13 +49,22 @@ public class ApiRouter {
 		}
 		
 		int boldCount = 0;
+		
+		responseString += ",\"boldWords\":[";
+		int x = 0;
 		for(Map.Entry<String, Integer> entry : wordsToBold){
 			System.out.println(entry.getValue() + "\t\t" + entry.getKey());
-			responseString += ",\"boldWord" + boldCount +"\":\"" + entry.getKey() + "\"";
+			
+			if(x == 0){
+				responseString += "{\"boldWord" + boldCount +"\":\"" + entry.getKey() + "\"}";
+				x++;
+			} else {
+				responseString += ",{\"boldWord" + boldCount +"\":\"" + entry.getKey() + "\"}";
+			}
 			boldCount++;
 		}
 		
-		responseString += "}";
+		responseString += "]\n}";
 
 		
 		return Response.status(200).entity(responseString).build();
