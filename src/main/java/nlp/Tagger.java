@@ -19,9 +19,6 @@ import opennlp.tools.util.PlainTextByLineStream;
 
 public class Tagger {
 	
-	private final Set<String> unwantedTags = new HashSet<String>(
-			Arrays.asList("DT", "VBZ", "WRB", "VBP", "IN", "WDT", "TO", "EX", "CC", "VB", "MD"));
-	
 	public static Map<String, String> getTags(String input) throws IOException {
 		POSModel model = new POSModelLoader().load(new File("./src/resources/en-pos-maxent.bin"));
 		POSTaggerME tagger = new POSTaggerME(model);

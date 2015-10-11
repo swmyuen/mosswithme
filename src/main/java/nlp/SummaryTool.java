@@ -1,6 +1,8 @@
 package nlp;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -104,7 +106,8 @@ public class SummaryTool {
 		return (double)intersect.size() / (((double) s1.size() + (double) s2.size()) / 2);
 	}
 	
-	public static List<Map.Entry<String, Integer>> getWordFreq (String input) {
+	public static List<Map.Entry<String, Integer>> getWordsToBold (String input) throws IOException {
+		Map<String, String> tagMap = Tagger.getTags(input);
 		Map<String, Integer> wordFreq = new HashMap<String,Integer>();
 		
 		input = input.replace("!", "");
@@ -120,6 +123,15 @@ public class SummaryTool {
 				wordFreq.replace(str.toLowerCase(), wordFreq.get(str.toLowerCase()) + 1);
 			} else {
 				wordFreq.put(str.toLowerCase(), 1);
+			}
+		}
+		
+		final Set<String> unwantedTags = new HashSet<String>(
+				Arrays.asList("DT", "VBZ", "WRB", "VBP", "IN", "WDT", "TO", "EX", "CC", "VB", "MD"));
+		
+		for(Entry<String,String> entry : tagMap.entrySet()){
+			if(unwantedTags.contains(entry.getValue()) && wordFreq.keySet().contains(entry.getKey())){
+				wordFreq.remove(entry.getKey());
 			}
 		}
 		
