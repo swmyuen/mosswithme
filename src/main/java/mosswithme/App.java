@@ -8,8 +8,8 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;
 
 import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
-import com.sun.jersey.api.core.PackagesResourceConfig;
-import com.sun.jersey.api.core.ResourceConfig;
+
+import nlp.Tagger;
 
 public class App 
 {
@@ -21,6 +21,8 @@ public class App
 		
         HttpServer httpServer = GrizzlyServerFactory.createHttpServer(UriBuilder.fromUri("http://localhost").port(8080).path("/").build());
         httpServer.getServerConfiguration().addHttpHandler(httpHandler, "http://localhost:8080/");
+        
+        Tagger.getTags("Hi my name is Sam and I am at a Hackathon at CalBerkley");
         
         try {
             httpServer.start();

@@ -114,7 +114,7 @@ public class SummaryTool {
 		input = input.replace(";", "");
 		input = input.replace("|", "");
 		
-		for(String str : input.split(" ")){
+		for(String str : input.split(" ")) {
 			if(wordFreq.keySet().contains(str.toLowerCase())){
 				wordFreq.replace(str.toLowerCase(), wordFreq.get(str.toLowerCase()) + 1);
 			} else {
